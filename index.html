@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="store">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="vendor/twbs/bootstrap.min.css" type="text/css">
+    <script type="text/javascript" src="scripts/angular.min.js"></script>
+    <script type="text/javascript" src="scripts/app.js"></script>
+    <title>Shop | Mount McKinney</title>
+  </head>
+  <body ng-controller="StoreCtrl as store">
+    <!-- Product Container -->
+      <div ng-hide="store.product.soldOut" class="list-group-item" ng-repeat="product in store.products">
+        <h3>{{product.name}} <em>{{product.price | currency}}</em></h3>
+
+        <!-- Image Gallery -->
+        <div class="gallery">
+          <div class="img-wrap">
+            <img ng-src="{{product.images[0].full}}" />
+          </div>
+          <ul class="clearfix">
+            <li class="small-image pull-left thumbnail" ng-repeat="image in product.images">
+              <img ng-src="{{image}}" />
+            </li>
+          </ul>
+        </div>
+        <section ng-controller="PanelCtrl as panel">
+          <ul class="nav nav-pills">
+            <li ng-class="panel.isSelected(1)">
+              <a href="" ng-click="panel.selectTab(1)">{{product.description}}</a>
+            </li>
+            <li ng-class="panel.isSelected(2)">
+              <a href="" ng-click="panel.selectTab(2)">{{product.specifications}}</a>
+            </li>
+            <li ng-class="panel.isSelected(3)">
+              <a href="" ng-click="panel.selectTab(3)">{{product.reviews}}</a>
+            </li>
+          </ul>
+          <div class="panel" ng-show="panel.isSelected(1)">
+            <h4>Description</h4>
+            <p>{{product.description}}</p>
+          </div>
+          <div class="panel" ng-show="panel.isSelected(2)">
+            <h4>Specifications</h4>
+            <blockquote>None Yet</blockquote>
+            <!-- <p>{{product.specifications}}</p> -->
+          </div>
+          <div class="panel" ng-show="panel.isSelected(3)">
+            <h4>Reviews</h4>
+            <blockquote>None Yet</blockquote>
+            <!-- <p>{{product.reviews}}</p> -->
+          </div>
+        </section>
+    </div>
+  </body>
+</html>

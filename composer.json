@@ -1,0 +1,13 @@
+{
+    "name": "root/workspace",
+    "authors": [
+        {
+            "name": "John McKinney",
+            "email": "john@mountmckinney.com"
+        }
+    ],
+    "require": {
+        "twbs/bootstrap": "^3.3",
+        "monolog/monolog": "^1.19"
+    }
+}
