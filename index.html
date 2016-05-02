@@ -7,7 +7,7 @@
     <script type="text/javascript" src="scripts/app.js"></script>
     <title>Shop | Mount McKinney</title>
   </head>
-  <body ng-controller="StoreCtrl as store">
+  <body ng-controller="StoreController as store">
     <!-- Product Container -->
       <div ng-hide="store.product.soldOut" class="list-group-item" ng-repeat="product in store.products">
         <h3>{{product.name}} <em>{{product.price | currency}}</em></h3>
@@ -23,7 +23,9 @@
             </li>
           </ul>
         </div>
-        <section ng-controller="PanelCtrl as panel">
+
+
+        <section ng-controller="PanelController as panel">
           <ul class="nav nav-pills">
             <li ng-class="panel.isSelected(1)">
               <a href="" ng-click="panel.selectTab(1)">{{product.description}}</a>
@@ -46,8 +48,41 @@
           </div>
           <div class="panel" ng-show="panel.isSelected(3)">
             <h4>Reviews</h4>
-            <blockquote>None Yet</blockquote>
-            <!-- <p>{{product.reviews}}</p> -->
+            <blockquote ng-repeat="review in product.reviews">
+              <b>Stars: {{review.stars}}</b>
+              {{review.body}}
+              <cite>by: {{review.author}}</cite>
+            </blockquote>
+
+
+            <!-- Form for creating reviews -->
+            <form name="reviewForm" ng-controller="ReviewController as reviewCtrl"
+              ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
+              <!-- Live preview of what is being typed being added to the review area -->
+              <blockquote>
+                <b>Stars: {{reviewCtrl.review.stars}}</b>
+                {{reviewCtrl.review.body}}
+                <cite>by: {{reviewCtrl.review.author}}</cite>
+              </blockquote>
+              <!-- Review area -->
+              <select ng-model="reviewCtrl.review.stars" required>
+                <option value="1">1 star</option>
+                <option value="2">2 star</option>
+                <option value="3">3 star</option>
+                <option value="4">4 star</option>
+                <option value="5">5 star</option>
+              </select>
+              <textarea ng-model="reviewCtrl.review.body" required></textarea>
+              <label for="">by:</label>
+              <input name="author" ng-model="reviewCtrl.review.author" type="email" required>
+              <!-- <input type="checkbox" ng-model="reviewCtrl.review.terms"/> I agree to the terms and conditions -->
+              <!-- <label for="">What color?</label>
+              <input type="radio" ng-model="reviewCtrl.review.color" value="red"> Red
+              <input type="radio" ng-model="reviewCtrl.review.color" value="blue"> Blue
+              <input type="radio" ng-model="reviewCtrl.review.color" value="green"> Green -->
+              <div class=""> reviewForm is {{reviewForm.$valid}} </div>
+              <input type="submit" value="Submit">
+            </form>
           </div>
         </section>
     </div>
