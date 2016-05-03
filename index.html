@@ -1,90 +1,33 @@
 <!DOCTYPE html>
-<html ng-app="store">
+<html ng-app="gemStore">
   <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="vendor/twbs/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
     <script type="text/javascript" src="scripts/angular.min.js"></script>
+    <script type="text/javascript" src="scripts/products.js"></script>
     <script type="text/javascript" src="scripts/app.js"></script>
-    <title>Shop | Mount McKinney</title>
+    <title>Shop | Gem Store</title>
   </head>
+
   <body ng-controller="StoreController as store">
-    <!-- Product Container -->
-      <div ng-hide="store.product.soldOut" class="list-group-item" ng-repeat="product in store.products">
-        <h3>{{product.name}} <em>{{product.price | currency}}</em></h3>
+    <!--  Store Header  -->
+    <header>
+      <h1 class="text-center">Flatlander Crafted Gems</h1>
+      <h2 class="text-center">– an Angular store –</h2>
+    </header>
 
-        <!-- Image Gallery -->
-        <div class="gallery">
-          <div class="img-wrap">
-            <img ng-src="{{product.images[0].full}}" />
-          </div>
-          <ul class="clearfix">
-            <li class="small-image pull-left thumbnail" ng-repeat="image in product.images">
-              <img ng-src="{{image}}" />
-            </li>
-          </ul>
-        </div>
+    <!--  Products Container  -->
+    <div class="list-group">
+      <!--  Product Container  -->
+      <div class="list-group-item" ng-repeat="product in store.products">
+        <h3>{{product.name}} <em class="pull-right">{{product.price | currency}}</em></h3>
 
+        <!-- Image Gallery  -->
+        <product-gallery></product-gallery>
 
-        <section ng-controller="PanelController as panel">
-          <ul class="nav nav-pills">
-            <li ng-class="panel.isSelected(1)">
-              <a href="" ng-click="panel.selectTab(1)">{{product.description}}</a>
-            </li>
-            <li ng-class="panel.isSelected(2)">
-              <a href="" ng-click="panel.selectTab(2)">{{product.specifications}}</a>
-            </li>
-            <li ng-class="panel.isSelected(3)">
-              <a href="" ng-click="panel.selectTab(3)">{{product.reviews}}</a>
-            </li>
-          </ul>
-          <div class="panel" ng-show="panel.isSelected(1)">
-            <h4>Description</h4>
-            <p>{{product.description}}</p>
-          </div>
-          <div class="panel" ng-show="panel.isSelected(2)">
-            <h4>Specifications</h4>
-            <blockquote>None Yet</blockquote>
-            <!-- <p>{{product.specifications}}</p> -->
-          </div>
-          <div class="panel" ng-show="panel.isSelected(3)">
-            <h4>Reviews</h4>
-            <blockquote ng-repeat="review in product.reviews">
-              <b>Stars: {{review.stars}}</b>
-              {{review.body}}
-              <cite>by: {{review.author}}</cite>
-            </blockquote>
+        <!-- Product Tabs  -->
+        <product-tabs></product-tabs>
+      </div>
 
-
-            <!-- Form for creating reviews -->
-            <form name="reviewForm" ng-controller="ReviewController as reviewCtrl"
-              ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
-              <!-- Live preview of what is being typed being added to the review area -->
-              <blockquote>
-                <b>Stars: {{reviewCtrl.review.stars}}</b>
-                {{reviewCtrl.review.body}}
-                <cite>by: {{reviewCtrl.review.author}}</cite>
-              </blockquote>
-              <!-- Review area -->
-              <select ng-model="reviewCtrl.review.stars" required>
-                <option value="1">1 star</option>
-                <option value="2">2 star</option>
-                <option value="3">3 star</option>
-                <option value="4">4 star</option>
-                <option value="5">5 star</option>
-              </select>
-              <textarea ng-model="reviewCtrl.review.body" required></textarea>
-              <label for="">by:</label>
-              <input name="author" ng-model="reviewCtrl.review.author" type="email" required>
-              <!-- <input type="checkbox" ng-model="reviewCtrl.review.terms"/> I agree to the terms and conditions -->
-              <!-- <label for="">What color?</label>
-              <input type="radio" ng-model="reviewCtrl.review.color" value="red"> Red
-              <input type="radio" ng-model="reviewCtrl.review.color" value="blue"> Blue
-              <input type="radio" ng-model="reviewCtrl.review.color" value="green"> Green -->
-              <div class=""> reviewForm is {{reviewForm.$valid}} </div>
-              <input type="submit" value="Submit">
-            </form>
-          </div>
-        </section>
     </div>
   </body>
 </html>
